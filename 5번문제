@@ -1,0 +1,47 @@
+import processing.net.*;
+
+Client client;
+String serverIP = "서버_IP_주소";  // 서버의 IP 주소 또는 호스트 이름
+int serverPort = 80;  // 서버 포트 번호
+String receivedData = "";
+
+void setup() {
+  size(400, 200);
+  client = new Client(this, serverIP, serverPort);
+}
+
+void draw() {
+  background(220);
+  fill(0);
+  textSize(16);
+  text("스마트폰에서 텍스트 입력 후 Send 버튼을 누르세요.", 20, 30);
+
+  fill(0, 255, 0);
+  rect(50, 70, 100, 40);
+  fill(255);
+  textSize(20);
+  text("Send", 80, 100);
+}
+
+void keyPressed() {
+  if (key == 'q' || key == 'Q') {
+    if (client != null) {
+      client.stop();
+    }
+    exit();
+  }
+}
+
+void mousePressed() {
+  if (mouseX > 50 && mouseX < 150 && mouseY > 70 && mouseY < 110) {
+    String inputText = "1";  // 스마트폰에서 입력한 숫자 (1부터 8 중 하나)
+    sendCommand(inputText);
+  }
+}
+
+void sendCommand(String command) {
+  if (client != null) {
+    client.write(command);
+    println("명령 전송: " + command);
+  }
+}
