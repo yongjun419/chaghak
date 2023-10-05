@@ -1,0 +1,39 @@
+import processing.net.*;
+
+Client client;
+String serverIP = "서버_IP_주소";  // 서버의 IP 주소 또는 호스트 이름
+int serverPort = 80;  // 서버 포트 번호
+color bgColor = color(255, 0, 0);  // 초기 배경 색상 (붉은색)
+
+void setup() {
+  size(400, 400);
+  client = new Client(this, serverIP, serverPort);
+}
+
+void draw() {
+  background(bgColor);  // 배경 색상 설정
+  
+  // 서버로부터 데이터를 받으면 처리
+  while (client.available() > 0) {
+    String data = client.readString();
+    data = data.trim();
+    int value = Integer.parseInt(data);
+    
+    // 서버에서 받은 값에 따라 배경 색상 설정
+    if (value == 1) {
+      bgColor = color(0, 0, 255);  // 푸른색
+    } else if (value == 0) {
+      bgColor = color(255, 0, 0);  // 붉은색
+    }
+  }
+}
+
+void keyPressed() {
+  if (key == 'q' || key == 'Q') {
+    // 프로세싱 종료 시 연결을 끊음
+    if (client != null) {
+      client.stop();
+    }
+    exit();
+  }
+}
