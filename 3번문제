@@ -1,6 +1,6 @@
 import processing.serial.*;
 Serial s;
-int i; 
+int a; 
 void setup() {
   size(400, 400);
   s = new Serial(this, "COM3", 9600);
@@ -9,14 +9,12 @@ void setup() {
 void draw() {
   if (s.available() > 0) 
   {
-    i = s.read(); 
-    if (i == '1') 
-    {
+    a = s.read(); 
+    if (a == '1') {
       background(0, 255, 0); 
     }
-    if (i == '0') 
-    {
-      background(0); 
+    if (a == '0') {
+      background(0,0,0); 
     }
   }
 }
